@@ -1,0 +1,40 @@
+[21/06/23, 11:58:29 p.m.] Mugi: ?
+[21/06/23, 11:58:44 p.m.] Lizardi: igual el de la fecha
+[21/06/23, 11:59:13 p.m.] Mugi: en k html estas?
+[21/06/23, 11:59:21 p.m.] Mugi: a mi si me aparece el datapicker
+[21/06/23, 11:59:37 p.m.] Mugi: si estas en el crud
+[21/06/23, 11:59:39 p.m.] Lizardi: admincrud.html
+[21/06/23, 11:59:44 p.m.] Mugi: ahi si esta el otro
+[21/06/23, 11:59:49 p.m.] Lizardi: a
+[22/06/23, 12:00:06 a.m.] Mugi: porque apenas me pasaste todo lo que llevas hoy
+[22/06/23, 12:00:31 a.m.] Mugi: ahorita lo corrijo, bueno
+[22/06/23, 12:00:40 a.m.] Lizardi: awanta
+[22/06/23, 12:00:45 a.m.] Mugi: es copypaste del contratar
+[22/06/23, 12:00:45 a.m.] Mugi: xd
+[22/06/23, 12:01:26 a.m.] Lizardi: ya
+[22/06/23, 12:01:31 a.m.] Mugi: xd
+[22/06/23, 12:01:38 a.m.] Lizardi: has un copypaste de contratacion.php
+[22/06/23, 12:01:55 a.m.] Lizardi: osea pero de todos los imput's y selects y range
+[22/06/23, 12:02:09 a.m.] Lizardi: porque te falto de seleccionar salon creo
+[22/06/23, 12:02:13 a.m.] Mugi: de la parte del formulario no? xd, es lo que hice con el del Johan
+[22/06/23, 12:02:25 a.m.] Mugi: por eso esta asi xd
+[22/06/23, 12:03:35 a.m.] Lizardi: si
+[22/06/23, 12:03:37 a.m.] Lizardi: todo feo
+[22/06/23, 12:03:41 a.m.] Mugi: xd
+[22/06/23, 12:18:06 a.m.] Lizardi: ya?
+[22/06/23, 12:18:31 a.m.] Mugi: lo del crud?
+[22/06/23, 12:18:32 a.m.] Mugi: ya
+[22/06/23, 12:20:59 a.m.] Lizardi: si el admin le da en nuevo evento
+[22/06/23, 12:21:09 a.m.] Lizardi: tambien le tiene que dar a confirmar ?
+[22/06/23, 12:21:15 a.m.] Lizardi: o directamente lo crea de chill
+[22/06/23, 12:21:21 a.m.] Mugi: como veas
+[22/06/23, 12:21:26 a.m.] Lizardi: con los ojos
+[22/06/23, 12:21:28 a.m.] Lizardi: tu pa?
+[22/06/23, 12:21:37 a.m.] Mugi: que le de confirmar
+[22/06/23, 1:06:30 a.m.] Lizardi: we
+[22/06/23, 1:06:47 a.m.] Mugi: k paso
+[22/06/23, 1:06:56 a.m.] Lizardi: pense q estabas zzz
+[22/06/23, 1:07:04 a.m.] Mugi: no
+[22/06/23, 1:07:11 a.m.] Mugi: ya le di formato al de confirmacion
+[22/06/23, 1:19:54 a.m.] Lizardi: ya y luego
+[22/06/23, 1:20:11 a.m.] Mugi: Ando haciendo el PDF, solo te ando avisando
