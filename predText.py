@@ -1,31 +1,36 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, Listbox
+import csv
 
 # Variables globales para bigramas y trigramas
 bigramas = {}
 trigramas = {}
 tipo_ngrama = ""
 
-# Función para cargar el archivo de bigramas o trigramas
+# Función para cargar el archivo de bigramas o trigramas desde CSV
 def cargar_archivo():
     global bigramas, trigramas, tipo_ngrama
-    file_path = filedialog.askopenfilename(title="Seleccionar archivo", filetypes=[("Text Files", "*.txt")])
+    bigramas.clear()
+    trigramas.clear()
+
+    file_path = filedialog.askopenfilename(title="Seleccionar archivo CSV", filetypes=[("CSV Files", "*.csv")])
     if not file_path:
         return
 
-    with open(file_path, 'r') as file:
-        header = file.readline().strip()
+    with open(file_path, newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        header = next(reader)  # Leer la primera línea como encabezado
 
         # Detectar si es un archivo de bigramas o trigramas
-        if "Term1,Term2,Term3" in header:
+        if header[:3] == ["Term1", "Term2", "Term3"]:
             tipo_ngrama = "trigrama"
-            for line in file:
-                term1, term2, term3, freq, context_freq, prob = line.strip().split(',')
+            for row in reader:
+                term1, term2, term3, freq, context_freq, prob = row
                 trigramas[(term1, term2, term3)] = float(prob)
-        elif "Term1,Term2" in header:
+        elif header[:2] == ["Term1", "Term2"]:
             tipo_ngrama = "bigrama"
-            for line in file:
-                term1, term2, freq, context_freq, prob = line.strip().split(',')
+            for row in reader:
+                term1, term2, freq, context_freq, prob = row
                 bigramas[(term1, term2)] = float(prob)
         else:
             messagebox.showerror("Error", "Formato de archivo no válido.")
@@ -70,7 +75,7 @@ root = tk.Tk()
 root.title("Generador de Texto")
 
 # Botón para cargar archivo
-btn_cargar_archivo = tk.Button(root, text="Cargar archivo", command=cargar_archivo)
+btn_cargar_archivo = tk.Button(root, text="Cargar archivo CSV", command=cargar_archivo)
 btn_cargar_archivo.grid(row=0, column=0, pady=5)
 
 # Placeholder para escribir la palabra o palabras iniciales
