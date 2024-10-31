@@ -48,7 +48,8 @@ def sacar_ngramas(nombre_archivo, n):
             probabilidad_condicional = freq / contexto_freq
             resultados.append([term1, term2, term3, freq, contexto_freq, probabilidad_condicional])
 
-    resultados.sort(key=lambda x: x[-1], reverse=True)
+    resultados.sort(key=lambda x: x[-3], reverse=True)
+
     nombre_extraido = nombre_archivo.split("/")[-1].split(".")[0]
     nombre_csv = f"./ngramas/{nombre_extraido}_{n}.csv"
     guardar_resultados(nombre_csv, resultados, n)

@@ -31,11 +31,13 @@ def generar_ngramas(n):
 ventana = tk.Tk()
 ventana.title("Cargador de Chats de WhatsApp")
 
+
 etiqueta = tk.Label(ventana, text="Cargar chat de WhatsApp")
 etiqueta.config(font=("Arial", 20), fg="blue")
 etiqueta.pack()
 
 entrada_archivo = tk.Entry(ventana)
+entrada_archivo.config(width=100)
 entrada_archivo.pack()
 
 boton_explorar = tk.Button(ventana, text="Seleccionar archivo", command=seleccionar_archivo)

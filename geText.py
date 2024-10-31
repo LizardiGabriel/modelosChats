@@ -9,7 +9,6 @@ trigramas = {}
 tipo_ngrama = ""
 texto_generado_completo = []
 
-# Random seguro utilizando SystemRandom de cryptography
 secure_random = random.SystemRandom()
 
 def cargar_csv():
@@ -23,7 +22,7 @@ def cargar_csv():
 
     with open(file_path, newline='') as csvfile:
         reader = csv.reader(csvfile)
-        header = next(reader)  # Leer la primera línea como encabezado
+        header = next(reader)
 
         if header[:3] == ["Term1", "Term2", "Term3"]:
             tipo_ngrama = "trigrama"
@@ -39,12 +38,18 @@ def cargar_csv():
             messagebox.showerror("Error", "Formato de archivo no válido.")
             return
 
-    # Mostrar el nombre del archivo cargado en la etiqueta
+
     archivo_label.config(text=f"Archivo cargado: {file_path.split('/')[-1]}")
     messagebox.showinfo("Éxito", f"Archivo de {tipo_ngrama}s cargado correctamente.")
 
 def seleccionar_palabra_por_ruleta(contexto, ngramas):
+    global contador_general
+    contador_general += 1
     opciones = [(termino[-1], prob) for termino, prob in ngramas.items() if termino[:-1] == contexto]
+
+    print(contador_general)
+    print(f"Contexto: {contexto}")
+    print(f"Opciones: {opciones}")
 
     # Verifica si hay opciones disponibles
     if not opciones:
@@ -66,6 +71,8 @@ def obtener_contexto_inicial():
     return None
 
 def generar_texto():
+    global contador_general
+    contador_general = 0
     contexto = obtener_contexto_inicial()
     if contexto is None:
         messagebox.showerror("Error", "No hay contexto inicial válido en el archivo cargado.")
