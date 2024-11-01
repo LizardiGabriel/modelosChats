@@ -7,6 +7,7 @@ modelos_bigrama = {}
 modelos_trigrama = {}
 modelos_seleccionados = []
 
+
 def cargar_csv():
     file_paths = filedialog.askopenfilenames(title="Seleccionar archivos CSV", filetypes=[("CSV Files", "*.csv")])
     if not file_paths:
@@ -16,25 +17,28 @@ def cargar_csv():
         with open(file_path, newline='') as csvfile:
             header = csvfile.readline().strip().split(",")
 
-            modelo_nombre = file_path.split('/')[-1]  # Nombre del archivo
+            modelo_nombre = file_path.split('/')[-1]
 
             if header[:3] == ["Term1", "Term2", "Term3"]:
                 modelos_trigrama[modelo_nombre] = cargar_modelo(file_path, 3)
                 lista_trigrama.insert(tk.END, modelo_nombre)
+
             elif header[:2] == ["Term1", "Term2"]:
                 modelos_bigrama[modelo_nombre] = cargar_modelo(file_path, 2)
                 lista_bigrama.insert(tk.END, modelo_nombre)
+
             else:
                 messagebox.showerror("Error", f"Formato de archivo no válido para '{modelo_nombre}'.")
                 continue
 
     messagebox.showinfo("Éxito", "Archivos cargados correctamente.")
 
+
 def cargar_modelo(file_path, n):
     modelo = {}
     with open(file_path, newline='') as csvfile:
         reader = csv.reader(csvfile)
-        next(reader)  # Saltar la cabecera
+        next(reader)
         for row in reader:
             if n == 2:
                 key = (row[0], row[1])
@@ -44,6 +48,7 @@ def cargar_modelo(file_path, n):
                 modelo[key] = int(row[3])
     return modelo
 
+
 def seleccionar_modelos():
     tipo_ngrama = var_ngrama.get()
     modelos_seleccionados.clear()
@@ -52,6 +57,7 @@ def seleccionar_modelos():
         modelos_seleccionados.extend(modelos_bigrama.keys())
     elif tipo_ngrama == "trigrama":
         modelos_seleccionados.extend(modelos_trigrama.keys())
+
 
 def calcular_probabilidad():
     frase = entrada_frase.get("1.0", tk.END).strip()
@@ -68,18 +74,20 @@ def calcular_probabilidad():
         resultados_area.insert(tk.END, f"{modelo}:{probabilidad:.25f}\n")
 
 
-def calcular_probabilidades(frase, modelos_seleccionados, tipo_ngrama):
+def calcular_probabilidades(frase, modelos_seleccionados_sub, tipo_ngrama):
     resultados = {}
     n = 2 if tipo_ngrama == "bigrama" else 3
+    # agregar <s> y </s> a la frase
+    frase = f"<s> {frase} </s>"
     tokens = frase.split()
 
     if len(tokens) < n:
         messagebox.showerror("Error", f"Frase demasiado corta para un {tipo_ngrama}.")
         return resultados
 
-    for modelo in modelos_seleccionados:
+    for modelo in modelos_seleccionados_sub:
         modelo_data = modelos_bigrama[modelo] if n == 2 else modelos_trigrama[modelo]
-        vocabulario = set([k[i] for k in modelo_data.keys() for i in range(n-1)])  # Vocabulario de n-1 términos
+        vocabulario = set([k[i] for k in modelo_data.keys() for i in range(n-1)])
         V = len(vocabulario)
         probabilidad_conjunta = 1
 
