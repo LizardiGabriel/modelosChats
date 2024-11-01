@@ -45,29 +45,50 @@ def cargar_csv():
 def seleccionar_palabra_por_ruleta(contexto, ngramas):
     global contador_general
     contador_general += 1
-    opciones = [(termino[-1], prob) for termino, prob in ngramas.items() if termino[:-1] == contexto]
 
-    print(contador_general)
-    print(f"Contexto: {contexto}")
-    print(f"Opciones: {opciones}")
+    opciones = [(termino[-1], prob) for termino, prob in ngramas.items() if termino[:-1] == contexto]
 
     # Verifica si hay opciones disponibles
     if not opciones:
         return "</s>"
 
-    palabras, probabilidades = zip(*opciones)
-    return secure_random.choices(palabras, weights=probabilidades, k=1)[0]
+    # Crea una "ruleta" acumulando las probabilidades
+    ruleta = []
+    acumulado = 0
+    for palabra, prob in opciones:
+        acumulado += prob
+        ruleta.append((palabra, acumulado))
+
+    # Genera un número aleatorio entre 0 y la suma total de probabilidades
+    numero_aleatorio = random.random() * acumulado
+
+    # Encuentra la sección de la ruleta en la que cayó el número
+    for palabra, limite in ruleta:
+        if numero_aleatorio <= limite:
+            return palabra
 
 def obtener_contexto_inicial():
     global contador_general
     if tipo_ngrama == "bigrama":
         return ("<s>",)
     elif tipo_ngrama == "trigrama":
-        # Filtra opciones de contexto de la forma ("<s>", alguna_palabra) en trigramas
-        opciones_iniciales = [(term1, term2) for (term1, term2, _) in trigramas.keys() if term1 == "<s>"]
+        # filtrar ("<s>", alguna_palabra) en trigramas
+        opciones_iniciales = [(term1, term2, prob) for (term1, term2, prob) in trigramas.keys() if term1 == "<s>"]
 
         if opciones_iniciales:
-            return secure_random.choice(opciones_iniciales)
+            # crear ruleta
+            ruleta = []
+            acumulado = 0
+            for contexto, prob in opciones_iniciales:
+                # acumulado += prob
+                acumulado += 1
+                ruleta.append((contexto, acumulado))
+
+            # Generar un número aleatorio y seleccionar el contexto
+            numero_aleatorio = random.random() * acumulado
+            for contexto, limite in ruleta:
+                if numero_aleatorio <= limite:
+                    return contexto
     return None
 
 def generar_texto():
