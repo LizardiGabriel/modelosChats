@@ -78,7 +78,8 @@ def calcular_probabilidades(frase, modelos_seleccionados_sub, tipo_ngrama):
     resultados = {}
     n = 2 if tipo_ngrama == "bigrama" else 3
     # agregar <s> y </s> a la frase
-    frase = f"<s> {frase} </s>"
+
+
     tokens = frase.split()
 
     if len(tokens) < n:

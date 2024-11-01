@@ -6,15 +6,17 @@ import random
 contador_general = 0
 bigramas = {}
 trigramas = {}
+trig_frecs = {}
 tipo_ngrama = ""
 texto_generado_completo = []
 
 secure_random = random.SystemRandom()
 
 def cargar_csv():
-    global bigramas, trigramas, tipo_ngrama
+    global bigramas, trigramas, tipo_ngrama, trig_frecs
     bigramas.clear()
     trigramas.clear()
+    trig_frecs.clear()
 
     file_path = filedialog.askopenfilename(title="Seleccionar archivo CSV", filetypes=[("CSV Files", "*.csv")])
     if not file_path:
@@ -29,6 +31,7 @@ def cargar_csv():
             for row in reader:
                 term1, term2, term3, freq, context_freq, prob = row
                 trigramas[(term1, term2, term3)] = float(prob)
+                trig_frecs[(term1, term2, term3)] = int(freq)
         elif header[:2] == ["Term1", "Term2"]:
             tipo_ngrama = "bigrama"
             for row in reader:
@@ -37,7 +40,6 @@ def cargar_csv():
         else:
             messagebox.showerror("Error", "Formato de archivo no válido.")
             return
-
 
     archivo_label.config(text=f"Archivo cargado: {file_path.split('/')[-1]}")
     messagebox.showinfo("Éxito", f"Archivo de {tipo_ngrama}s cargado correctamente.")
@@ -67,29 +69,18 @@ def seleccionar_palabra_por_ruleta(contexto, ngramas):
         if numero_aleatorio <= limite:
             return palabra
 
+
 def obtener_contexto_inicial():
     global contador_general
     if tipo_ngrama == "bigrama":
         return ("<s>",)
     elif tipo_ngrama == "trigrama":
-        # filtrar ("<s>", alguna_palabra) en trigramas
-        opciones_iniciales = [(term1, term2, prob) for (term1, term2, prob) in trigramas.keys() if term1 == "<s>"]
-
+        opciones_iniciales = [(term1, term2) for (term1, term2, _) in trigramas.keys() if term1 == "<s>"]
+        print(opciones_iniciales)
         if opciones_iniciales:
-            # crear ruleta
-            ruleta = []
-            acumulado = 0
-            for contexto, prob in opciones_iniciales:
-                # acumulado += prob
-                acumulado += 1
-                ruleta.append((contexto, acumulado))
-
-            # Generar un número aleatorio y seleccionar el contexto
-            numero_aleatorio = random.random() * acumulado
-            for contexto, limite in ruleta:
-                if numero_aleatorio <= limite:
-                    return contexto
+            return random.choice(opciones_iniciales)
     return None
+
 
 def generar_texto():
     global contador_general
@@ -107,7 +98,7 @@ def generar_texto():
             contexto = (siguiente_palabra,)
         elif tipo_ngrama == "trigrama":
             siguiente_palabra = seleccionar_palabra_por_ruleta(contexto, trigramas)
-            contexto = (contexto[-1], siguiente_palabra)  # Contexto actualizado
+            contexto = (contexto[-1], siguiente_palabra)
 
         if siguiente_palabra == "</s>":
             break
